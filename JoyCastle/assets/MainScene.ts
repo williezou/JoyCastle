@@ -20,8 +20,8 @@ export class MainScene extends Component {
     @property(Node)
     matrixContainer: Node = null; // 矩阵容器
 
-    @property(Button)
-    createBtn: Button = null;
+    @property(Node)
+    createBtn: Node = null;
 
     @property(Node)
     cell: Node = null;
@@ -31,11 +31,11 @@ export class MainScene extends Component {
 
 
     onLoad() {
-        this.createBtn.node.on(Button.EventType.CLICK, this.generateMatrix, this);
+        this.createBtn.getComponentInChildren(Button).node.on(Button.EventType.CLICK, this.generateMatrix, this);
     }
 
     onDestroy() {
-        this.createBtn.node.off(Button.EventType.CLICK, this.generateMatrix, this);
+        this.createBtn.getComponentInChildren(Button).node.off(Button.EventType.CLICK, this.generateMatrix, this);
     }
     
 
