@@ -31,6 +31,36 @@ b = [234, 5, 2, 148, 23];
 v = 42;
 ```
 
+```TypeScript
+function canSumToTarget(a: number[], b: number[], v: number): boolean {
+    // 先对数组 a 和 b 进行排序
+    a.sort((x, y) => x - y);
+    b.sort((x, y) => x - y);
+
+    let left = 0; // 指针从 a 的左侧开始
+    let right = b.length - 1; // 指针从 b 的右侧开始
+
+    while (left < a.length && right >= 0) {
+        const sum = a[left] + b[right];
+        if (sum === v) {
+            return true;
+        } else if (sum < v) {
+            left++;// 和太小，移动左指针
+        } else {
+            right--;// 和太小，移动左指针
+        }
+    }
+
+    return false;
+}
+```
+排序的时间复杂度为 O(m log m + n log n)。
+
+双指针法的时间复杂度为 O(m + n)。
+
+总时间复杂度为 O(m log m + n log n)。
+
+
 ## Q3
 
 请仔细观察附件中知名消除类游戏 Candy Crush 或 Candy Crush Saga 中选关界⾯对话框 Play 按钮的
