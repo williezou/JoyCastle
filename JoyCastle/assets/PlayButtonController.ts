@@ -27,7 +27,7 @@ export default class PlayButtonController extends Component {
 
     playAppearAnimation() {
         tween(this.node)
-            .to(0.5, { scale: this.originalScale}, { easing: 'backOut' }) // 缩放和淡入
+            .to(0.5, { scale: this.originalScale}, { easing: 'backOut' })
             .call(() => {
                 this.playBreathAnimation();
             })
