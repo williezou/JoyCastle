@@ -1,4 +1,4 @@
-import { _decorator, Button, color, Component, EditBox, instantiate, Layout, log, Node, Size, Sprite, UITransform, Vec2 } from 'cc';
+import { _decorator, Button, color, Component, EditBox, instantiate, log, Node, Sprite } from 'cc';
 const { ccclass, property } = _decorator;
 
 const COLORS = [
@@ -27,9 +27,9 @@ export class MainScene extends Component {
     cell: Node = null;
 
     private matrix: number[][] = []; // 存储矩阵颜色索引
+    private readonly SIZE = 10; // 矩阵大小
 
-    private x: number = 0; // X 值
-    private y: number = 0; // Y 值
+
     onLoad() {
         this.createBtn.getComponentInChildren(Button).node.on(Button.EventType.CLICK, this.generateMatrix, this);
     }
@@ -49,40 +49,28 @@ export class MainScene extends Component {
         const x = parseFloat(this.xInput.string); // 获取 X 值
         const y = parseFloat(this.yInput.string); // 获取 Y 值
 
-        this.x = x;
-        this.y = y;
-
         if (isNaN(x) || isNaN(y)) {
             log("请输入有效的 X 和 Y 值");
             return;
         }
 
-        if (x <= 0 || y <= 0) {
-            log("X 和 Y 值必须大于 0");
-            return;
-        }
-        if(x < y) {
-            log("X 值必须大于 Y 值");
-            return;
-        }
-
         // 初始化矩阵
         this.matrix = [];
-        for (let i = 0; i < this.x; i++) {
-            this.matrix[i] = new Array(this.y).fill(-1);
+        for (let i = 0; i < this.SIZE; i++) {
+            this.matrix[i] = new Array(this.SIZE).fill(-1);
         }
 
         // 生成矩阵
-        for (let i = 0; i < this.x; i++) {
-            for (let j = 0; j < this.y; j++) {
+        for (let i = 0; i < this.SIZE; i++) {
+            for (let j = 0; j < this.SIZE; j++) {
                 this.matrix[i][j] = this.getColorIndex(i, j, x, y);
             }
         }
 
-        for (let index = 0; index < x * y; index++) {
+        for (let index = 0; index < this.SIZE * this.SIZE; index++) {
 
-            const i = Math.floor(index / x); // 行索引
-            const j = index % y; // 列索引
+            const i = Math.floor(index / this.SIZE); // 行索引
+            const j = index % this.SIZE; // 列索引
 
             this.matrix[i][j] = this.getColorIndex(i, j, x, y);
         }
@@ -141,12 +129,10 @@ export class MainScene extends Component {
     displayMatrix() {
         this.matrixContainer.destroyAllChildren();
 
-        this.matrixContainer.getComponent(UITransform).contentSize = new Size((40 * this.x + 2 * (this.x - 1) + 4), (40 * this.y + 2 * (this.y - 1) + 4));
+        for (let index = 0; index < this.SIZE * this.SIZE; index++) {
 
-        for (let index = 0; index < this.x * this.y; index++) {
-
-            const i = Math.floor(index / this.x); // 行索引
-            const j = index % this.y; // 列索引
+            const i = Math.floor(index / this.SIZE); // 行索引
+            const j = index % this.SIZE; // 列索引
 
             const _cell = instantiate(this.cell);
             _cell.active = true;
