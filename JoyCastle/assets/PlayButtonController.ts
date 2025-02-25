@@ -78,8 +78,8 @@ export default class PlayButtonController extends Component {
         this.isAnimating = true;
 
         tween(this.node)
-        .to(0.1, { scale: v3(0.8, 0.8, 1) }, { easing: 'sineInOut' })
-        .to(0.1, { scale: this.originalScale} , { easing: 'sineInOut' })
+        .to(0.1, { scale: v3(0.8, 0.8, 1) }, { easing: 'elasticInOut' })
+        .to(0.1, { scale: this.originalScale} , { easing: 'elasticOutIn' })
         .call(() => {this.isAnimating = false;})
         .union()
         .start();
